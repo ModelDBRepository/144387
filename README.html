@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<title>The Pyloric Network Model Simulator</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 5196 2007-06-03 20:25:28Z wiemann $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left {
+  clear: left }
+
+img.align-right {
+  clear: right }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font-family: serif ;
+  font-size: 100% }
+
+pre.literal-block, pre.doctest-block {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="the-pyloric-network-model-simulator">
+<h1 class="title">The Pyloric Network Model Simulator</h1>
+
+<p>This pyloric network model simulator is a C/C++ program that saves 384
+different calcium sensor values that are candidates for activity
+sensors (Gunay and Prinz, 2010). The simulator was used to scan all of
+the 20 million pyloric network models that were previously collected
+in a database (Prinz et al, 2004). See the <a class="reference external" href="http://www.biology.emory.edu/research/Prinz/research.html">Prinz Lab research page</a> to
+learn more about the context of this research.</p>
+<div class="section" id="contents">
+<h1>Contents:</h1>
+<p><a class="reference internal" href="#description-of-parameter-space-and-files">Description of parameter space and files</a></p>
+<p><a class="reference internal" href="#download">Download</a></p>
+<p><a class="reference internal" href="#prerequisites">Prerequisites</a></p>
+<p><a class="reference internal" href="#compiling">Compiling</a></p>
+<p><a class="reference internal" href="#running">Running</a></p>
+<p><a class="reference internal" href="#the-network-sensor-database">The network sensor database</a></p>
+<p><a class="reference internal" href="#references">References</a></p>
+</div>
+<div class="section" id="description-of-parameter-space-and-files">
+<h1>Description of parameter space and files</h1>
+<p>The simulation will start from one of the previously saved snapshots
+(<tt class="docutils literal"><span class="pre">snaps</span></tt>) of network state variables. The 20 million network models
+(Prinz et al, 2004) have been divided into sections of 50,000 models
+for naming files. This section number is prefixed to file names. For
+instance, the snapshots of network number 4950000 will be loaded from
+the file &quot;<tt class="docutils literal"><span class="pre">100snaps.dat</span></tt>&quot;.</p>
+<p>The snapshots provide state variables after the network reaches
+equilibrium. They are contain the network number at the beginning,
+followed by the dynamic variables of all the three neurons AB/PD, LP,
+and PY (in <a class="reference external" href="http://www.biology.emory.edu/research/Prinz/database/databaseFolder2.html">this format</a>), and finally their synaptic weights:</p>
+<pre class="literal-block">
+netnum1 netnum2 netcode1 netcode2 ABPD_vars LP_vars PY_vars \
+ABLP_syn PDLP_syn ABPY_syn PDPYsyn LPPMsyn LPPYsyn PYLPsyn
+</pre>
+<p>The complete network index number is obtained by multiplying
+<tt class="docutils literal"><span class="pre">netnum1</span></tt> with 10,000 and adding to <tt class="docutils literal"><span class="pre">netnum2</span></tt>. The <tt class="docutils literal"><span class="pre">netcode1/2</span></tt>
+variables describe the network architecture as a string where each
+character represents indices for model neurons and synapse strengths
+with the same order as in the <tt class="docutils literal"><span class="pre">snaps</span></tt> file.</p>
+<p>The simulation will run for a few network periods, or a fixed duration
+if the activity is not periodic. The length of the run for a specific
+network can be controlled by the <tt class="docutils literal"><span class="pre">--period-mult</span></tt> option.</p>
+<p>The resulting calcium sensor values will be saved in text formatted
+files named like <tt class="docutils literal"><span class="pre">*sensors_?.dat</span></tt>. If the <tt class="docutils literal"><span class="pre">--analyze-bursts</span>
+<span class="pre">option</span></tt> is given, activity characteristics will also be saved into
+<tt class="docutils literal"><span class="pre">*bursts.dat</span></tt> and <tt class="docutils literal"><span class="pre">*stats.dat</span></tt> files. Please see the source code,
+or contact us, to learn the order of elements in these files.</p>
+<p>Activity traces for sensor, calcium concentration, and membrane
+voltage of all the three neurons will be saved in an <a class="reference external" href="http://www.hdfgroup.org/HDF5/">HDF5 format</a>
+binary file if requested with the <tt class="docutils literal"><span class="pre">--save-sensor-traces</span></tt> option and
+a file name is given with the <tt class="docutils literal"><span class="pre">-o</span></tt> option. HDF5 is a versatile and
+efficient file format that will let you visually browse and visualize
+its contents using the <a class="reference external" href="http://www.hdfgroup.org/hdf-java-html/hdfview/">HDFView</a> program. It can also be
+programmatically read from environments like C/C++, Matlab and
+LabVIEW. This simulator will not save individual ionic current traces.</p>
+<p>The simulator can run in batch to simulate a number of network
+architectures based on the previous numbering of the network
+database. The requested networks should be listed in a TODO file using
+the <tt class="docutils literal"><span class="pre">--todo-num</span></tt> option. See below section on <a class="reference internal" href="#running">Running</a> for more
+details and examples.</p>
+</div>
+<div class="section" id="download">
+<h1>Download</h1>
+<p>The simulator source code can be <a class="reference external" href="http://www.biology.emory.edu/research/Prinz/database-sensors/pyloric-network-simulator.zip">downloaded from here</a>.</p>
+</div>
+<div class="section" id="prerequisites">
+<h1>Prerequisites</h1>
+<p>Install <a class="reference external" href="http://www.hdfgroup.org/HDF5/">HDF5 libraries and utilities</a>. For example, on an Ubuntu
+system, you can get them with the following command:</p>
+<pre class="literal-block">
+$ sudo apt-get install hdf5-tools libhdf5-serial-1.8.4 libhdf5-serial-dev
+</pre>
+<p>A Makefile utility like <a class="reference external" href="http://www.gnu.org/software/make/">GNU Make</a> and a C/C++ compiler like the <a class="reference external" href="http://gcc.gnu.org/">GNU
+CC</a>.</p>
+</div>
+<div class="section" id="compiling">
+<h1>Compiling</h1>
+<p>Use the Makefile by running:</p>
+<pre class="literal-block">
+$ make
+</pre>
+<p>which should create the main simulator program
+&quot;simulate-sensors-from-snaps&quot;.</p>
+<p>To make a distribution ZIP file, use the &quot;distzip&quot; makefile target.</p>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<p>Usage can be requested by running the executable like this:</p>
+<pre class="literal-block">
+./simulate-sensors-from-snaps --help
+
+Usage:
+./simulate-sensors-from-snaps [-o filename.hdf5] [--work-dir directory] [--temp-dir directory ]
+       [--sensors-dir directory] [--shots-dir directory] [--snaps-dir directory ]
+       [-c|--compress=value] [--save-sensor-traces=value] [--period-mult=value]
+       [--analyze-bursts=value] [--debug-level number] [--todo-num number]
+       [--sensors-file filename] [--save-ca-avgs]
+
+General options:
+--debug-level: If 1, gives information about stages of processing;
+               if 2, gives gory details of processing. If 0, silent operation (default=1).
+-h|--help:     Prints this help.
+
+Environment options:
+--sensors-dir: Directory as final destination of sensor files (default=./).
+--shots-dir:   Directory as final destination of shots files (default=./).
+--snaps-dir:   Directory to find snaps files (default=./).
+--temp-dir:    Directory to create sensor and shot files before copying back (default=./).
+--work-dir:    Directory to find master.dat, XXXtodo and XXXlast files (default=./).
+
+HDF5 options for outputting raw data:
+-c|--compress: If 1, turns on compression in HDF5 datasets (default=1).
+-o|--output:   Use filename as HDF5 output file to save membrane voltages. Existing network data is updated.
+--save-sensor-traces:  If 1, saves all calcium sensor traces into the HDF5 file (default=0).
+
+Simulation options:
+--analyze-bursts: If 1, perform online analysis of the membrane voltage and
+               produce bursts and network stats files (default=0).
+--period-mult: Run the simulation this many times the default saved network period. (default=1).
+--todo-num:    Process &lt;number&gt;todo.dat file instead of reading from master.dat.
+--save-ca-avgs:        Append average values for [Ca], ICaS and ICaT in the sensor files. (default=0).
+--sensors-file:        Read sensor parameters to simulate from this file in the above
+               snaps directory (default=sensors.dat).
+</pre>
+</div>
+<div class="section" id="running">
+<h1>Running</h1>
+<p>I included a file, <tt class="docutils literal"><span class="pre">100todo.dat</span></tt>, that contains a list of network
+numbers to simulate. You can pass this file to the simulator using the
+<tt class="docutils literal"><span class="pre">--todo-num</span></tt> command line option. The simulator will only simulate
+network numbers greater than what's found in the corresponding
+<tt class="docutils literal"><span class="pre">last.dat</span></tt> file (e.g., <tt class="docutils literal"><span class="pre">100last.dat</span></tt>). You can initialize it with
+&quot;0 0 0&quot;. For example, you can process the entries listed in the file
+<tt class="docutils literal"><span class="pre">100todo.dat</span></tt> with the following command:</p>
+<pre class="literal-block">
+$ echo '0 0 0' &gt; 100last.dat
+$  ./simulate-sensors-from-snaps --todo-num 100
+Simulation parameters:
+----------------------------------------
+Debug level=1
+HDF5 file:&lt;none&gt;
+Sensors dir:./
+Snaps dir:./
+Shots dir:./
+Working dir:./
+Temp dir:./
+Compression=1
+Save sensors=0
+Period mult=1
+Analyze bursts=0
+Selected TODO file number=100
+----------------------------------------
+
+Found 354 sensors in sensor file sensors.dat.
+Running shell command: mkdir -p ./
+Found network 4959071 in todo file, checking last and snaps now.
+Found a network newer than last and initialized variables.
+...found network in snaps file.
+savedperiod: 0.514483
+Initializing sensor buffers..
+Starting simulation for 0.514483 seconds..
+Finished simulation..
+and pretty much done
+</pre>
+<p>The simulator need the previously-saved network snapshots to
+initialize the simulations. It will abort if the snapshot
+corresponding to the selected network is not found in the *snaps.dat
+files. The total size for these files is about 30 GB and therefore
+cannot be part of this distribution package. I included 100snaps.dat
+that contain a limited number of networks starting from number
+4950000.</p>
+<p>To save the activity traces, you can run it like this:</p>
+<pre class="literal-block">
+$ ./simulate-sensors-from-snaps --todo-num 100 --save-sensor-traces -o test.hdf5
+</pre>
+<p>which will create the HDF5 file, <tt class="docutils literal"><span class="pre">test.hdf5</span></tt>. Please ignore HDF5
+warnings as it creates new entries in the file. You can then use the
+<a class="reference external" href="http://www.hdfgroup.org/hdf-java-html/hdfview/">HDFView</a> program to browse the hierarchical structure inside the
+file and export or visualize its contents.</p>
+</div>
+<div class="section" id="the-network-sensor-database">
+<h1>The network sensor database</h1>
+<p>The database resulting from 20 million runs of this simulator is
+available upon request. It exists as a MySQL database
+(<a class="reference external" href="http://www.mysql.com/">http://www.mysql.com/</a>). However, because its size is roughly 400GB,
+it cannot be directly downloaded. The MySQL server can be setup to be
+accessed externally. Please contact CG or Astrid Prinz &lt;astrid.prinz AT
+emory.edu&gt; to make arrangements to have access to this database.</p>
+</div>
+<div class="section" id="references">
+<h1>References</h1>
+<p>Cengiz Gunay and Astrid A. Prinz (2010). Model calcium sensors for network homeostasis: Sensor and readout parameter analysis from a database of model neuronal networks. <em>J Neurosci</em>, 30:1686-1698, Feb 2010. doi:10.1523/jneurosci.3098-09.2010. <a class="reference external" href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2851246/">NIHMS176368</a>, PMC2851246.</p>
+<p>Prinz A.A., Bucher D., Marder E. (2004). Similar network activity from disparate circuit parameters. <em>Nat Neurosci</em> 7:1345-1352.</p>
+<p>--
+Cengiz Gunay &lt;cgunay AT emory.edu&gt;, &lt;cengique AT users.sf.net&gt;
+(updated 2012/03/16)</p>
+</div>
+</div>
+</body>
+</html>
